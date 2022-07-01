@@ -1,3 +1,6 @@
+- tidy first
+- extract `pages/`
+
 - 04 Saving and Displaying Notes
 - 05 Let's Talk PWA
 - 06 Running Database Updates
