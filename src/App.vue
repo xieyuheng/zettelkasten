@@ -3,7 +3,7 @@ import { useEditor, EditorContent } from "@tiptap/vue-3"
 import StarterKit from "@tiptap/starter-kit"
 
 const editor = useEditor({
-  content: "<p> hi there ~ </p>",
+  content: "hi there",
   extensions: [StarterKit],
   editorProps: {
     attributes: {
