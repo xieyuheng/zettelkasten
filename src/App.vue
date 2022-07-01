@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue"
 import { useEditor, EditorContent } from "@tiptap/vue-3"
 import StarterKit from "@tiptap/starter-kit"
 
@@ -7,10 +8,34 @@ const editor = useEditor({
   extensions: [StarterKit],
   editorProps: {
     attributes: {
-      class: "prose m-6 mx-auto focus:outline-none",
+      class: "prose p-4 mx-auto focus:outline-none",
     },
   },
 })
+
+const db = ref<IDBDatabase | null>(null)
+
+onMounted(async () => {
+  db.value = await getDatabase()
+})
+
+async function getDatabase(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const open = window.indexedDB.open("zettelkasten")
+
+    open.onerror = (event) => {
+      reject("Error opening the database of notes.")
+    }
+
+    open.onsuccess = (event: any) => {
+      resolve(event.target.result)
+    }
+
+    open.onupgradeneeded = (event: any) => {
+      event.target.result.createObjectStore("notes")
+    }
+  })
+}
 </script>
 
 <template>
